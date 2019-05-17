@@ -1,0 +1,357 @@
+MACRO ASSEMBLER MAIN                                       05/15/19 17:41:30 PAGE     1
+
+
+DOS MACRO ASSEMBLER MA51 V06.20.17.263
+OBJECT MODULE PLACED IN E:\RAISONANCE\RIDE\EXAMPLES\PROJETO_CTRL_TEMPERATURA\MAIN.OBJ
+ASSEMBLER INVOKED BY: QUIET GENERATEDEPFILE EP SYNTAX(ASM51) PR XR PL(60) PW(80) DB OJ(E:\RAISONANCE\RIDE\EXAMPLES\PROJETO_CTRL_TEMPERATURA\MAIN.OBJ) PIN(C:\RAISONANCE\RIDE\INC;C:\RAISONANCE\RIDE\INC\51) 
+
+LOC     OBJ           LINE    SOURCE
+                         1     $INCLUDE(REG51.INC)
+                        80     $INCLUDE(HARDWARE.INC)
+                       153     
+  00B6                 154     COMP_LOW        EQU         PINO_BOTAO3
+  00B7                 155     COMP_HIGH       EQU         PINO_BOTAO4    
+                       156     
+  0030                 157     TON             EQU         0X30
+  0031                 158     PERIOD_LOC      EQU         0X31
+  0032                 159     BUTTON_CLICK    EQU         0X32
+  0033                 160     HISTERESE_LOC   EQU         0X33
+                       161     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;FLAGS;;;;
+                       162     
+  0007                 163     LOW_PWM         EQU         0X07
+  0006                 164     HIGH_PWM        EQU         0X06
+  0005                 165     T_OFF           EQU         0X05
+  0006                 166     HIST_ST         EQU         0X06
+                       167     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       168     
+  007F                 169     LOW_DUTY        EQU         07FH            
+  00FF                 170     HIGH_DUTY       EQU         0FFH        
+  00FF                 171     PERIOD          EQU         0FFH      
+                       172     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  000A                 173     HISTERESE       EQU         0XAA
+                       174     
+                       175     
+                       176     MACRO RESETTIMER
+                       177     MOV TH1, #0D8H
+                       178     MOV TL1, #0EFH
+                       179     ENDM
+                       180     
+                       181     
+                       182     
+                       183     CODE AT 0
+0000    02018F         184         LJMP START
+------                 185     CODE
+                       186     
+                       187     CODE AT 0013H
+0013    32             188         RETI
+------                 189     CODE
+                       190     
+                       191     
+                       192     CODE AT 001BH
+001B    020100         193         LJMP DRV_TIMER 
+------                 194     CODE
+                       195     
+                       196     CODE AT 0100H
+                       197     
+                       198     DRV_TIMER:  
+                       199         
+0100    20070A         200     JB 7 , _LOW 
+MACRO ASSEMBLER MAIN                             05/15/19  17:41:30 PAGE     2
+                     
+0103    200612         201     JB 6 , _HIGH 
+                       202     
+                       203         RESETTIMER
+0106    758DD8         203+1   MOV TH1 , # 0D8H 
+0109    758BEF         203+1   MOV TL1 , # 0EFH 
+010C    32             204         RETI
+                       205     
+                       206         _LOW: 
+010D    0531           207     INC 49 
+010F    E531           208     MOV A , 49 
+0111    947F           209     SUBB A , # 127 
+0113    400E           210         JC SET_PWM_ON
+0115    020136         211         JMP SET_PWM_OFF   
+                       212         
+                       213         _HIGH: 
+0118    0531           214     INC 49 
+011A    E531           215     MOV A , 49 
+011C    94FF           216     SUBB A , # 255 
+011E    4003           217         JC SET_PWM_ON
+0120    020136         218         JMP SET_PWM_OFF   
+                       219         
+                       220         
+                       221         SET_PWM_ON: 
+                       222     LIGA_LED 160 
+0123    C2A0           222+1   CLR 160 
+                       223     LIGA_LED 167 
+0125    C2A7           223+1   CLR 167 
+0127    E531           224     MOV A , 49 
+0129    B4FF1D         225     CJNE A , # 255 , FIM_ISR 
+012C    753100         226     MOV 49 , # 00H 
+                       227             RESETTIMER
+012F    758DD8         227+1   MOV TH1 , # 0D8H 
+0132    758BEF         227+1   MOV TL1 , # 0EFH 
+0135    32             228         RETI
+                       229         
+                       230         SET_PWM_OFF: 
+                       231     DESLIGA_LED 160 
+0136    D2A0           231+1   SETB 160 
+                       232     DESLIGA_LED 167 
+0138    D2A7           232+1   SETB 167 
+013A    E531           233     MOV A , 49 
+013C    B4FF0A         234     CJNE A , # 255 , FIM_ISR 
+013F    753100         235     MOV 49 , # 00H 
+                       236             RESETTIMER
+0142    758DD8         236+1   MOV TH1 , # 0D8H 
+0145    758BEF         236+1   MOV TL1 , # 0EFH 
+0148    32             237         RETI
+                       238         
+                       239         FIM_ISR: 
+                       240         RESETTIMER
+0149    758DD8         240+1   MOV TH1 , # 0D8H 
+014C    758BEF         240+1   MOV TL1 , # 0EFH 
+014F    32             241         RETI
+                       242     
+                       243     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       244     ;;;;;;VERIFICA ESTADO DOS COMPARADORES;;;;;;;;;;
+                       245     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+MACRO ASSEMBLER MAIN                             05/15/19  17:41:30 PAGE     3
+                     
+                       246        
+                       247     
+                       248     TASKS_SENSOR: 
+                       249     
+                       250        
+0150    30B615         251     JNB 182 , SET_LOW_PWM 
+0153    30B719         252     JNB 183 , SET_HIGH_PWM 
+                       253         
+                       254         
+0156    C206           255     CLR 6 
+0158    C207           256     CLR 7 
+015A    753100         257     MOV 49 , # 00H 
+                       258     DESLIGA_LED 160 
+015D    D2A0           258+1   SETB 160 
+                       259         DESLIGA_BUZZER
+015F    D290           259+1   SETB 144 
+                       260     DESLIGA_LED 161 
+0161    D2A1           260+1   SETB 161 
+                       261     DESLIGA_LED 162 
+0163    D2A2           261+1   SETB 162 
+                       262     DESLIGA_LED 167 
+0165    D2A7           262+1   SETB 167 
+                       263     
+                       264     
+                       265         RETORNA: 
+0167    22             266         RET
+                       267           
+                       268        
+                       269         SET_LOW_PWM: 
+0168    D207           270     SETB 7 
+                       271     LIGA_LED 161 
+016A    C2A1           271+1   CLR 161 
+016C    C206           272     CLR 6 
+016E    22             273         RET
+                       274         
+                       275         
+                       276         SET_HIGH_PWM: 
+016F    D206           277     SETB 6 
+                       278     LIGA_LED 162 
+0171    C2A2           278+1   CLR 162 
+0173    C207           279     CLR 7 
+0175    22             280         RET
+                       281        
+                       282     
+                       283     INIT_HARD: 
+0176    75B6FF         284     MOV 182 , # 0FFH 
+0179    75B7FF         285     MOV 183 , # 0FFH 
+017C    758844         286         MOV TCON, #01000100B
+017F    75A88C         287         MOV IE, #10001100B
+0182    753100         288     MOV 49 , # 00H 
+0185    753300         289     MOV 51 , # 00H 
+                       290         RESETTIMER    
+0188    758DD8         290+1   MOV TH1 , # 0D8H 
+018B    758BEF         290+1   MOV TL1 , # 0EFH 
+018E    22             291     RET
+                       292     
+                       293     
+MACRO ASSEMBLER MAIN                             05/15/19  17:41:30 PAGE     4
+                     
+                       294     START: 
+018F    120176         295         LCALL INIT_HARD
+                       296         LOOP: 
+0192    120150         297         LCALL TASKS_SENSOR
+0195    020192         298         LJMP LOOP
+                       299     END
+MACRO ASSEMBLER MAIN                                       05/15/19 17:41:30 PAGE     0
+
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES             REFERENCES
+
+PERIOD_LOC . . . .  N NUMB   0031h                              158# 207 208 214 
+                                                                215 224 226 233 235 
+                                                                257 288 
+COMP_LOW . . . . .  N NUMB   00B6h                              154# 251 284 
+DISP_1 . . . . . .  B ADDR   0090H.2 A                          117# 
+DPL. . . . . . . .  D ADDR   0082H   A                          16# 
+P0 . . . . . . . .  D ADDR   0080H   A                          8# 109 110 111 112 
+                                                                113 114 115 
+BUTTON_CLICK . . .  N NUMB   0032h                              159# 
+DISP_2 . . . . . .  B ADDR   0090H.3 A                          118# 
+P1 . . . . . . . .  D ADDR   0090H   A                          9# 117 118 122 124 
+                                                                125 
+RELE_OFF . . . . .  N NUMB   0001h                              128# 
+B. . . . . . . . .  D ADDR   00F0H   A                          14# 
+P2 . . . . . . . .  D ADDR   00A0H   A                          10# 90 91 92 93 94 
+                                                                95 96 97 98 121 
+PERIOD . . . . . .  N NUMB   00FFh                              171# 225 234 
+TURN_OFF . . . . .  N NUMB   0000h                              134# 
+PS . . . . . . . .  B ADDR   00B8H.4 A                          57# 
+SP . . . . . . . .  D ADDR   0081H   A                          15# 
+P3 . . . . . . . .  D ADDR   00B0H   A                          11# 101 102 103 104 
+                                                                105 
+RELE_ON. . . . . .  N NUMB   0000h                              127# 
+T0 . . . . . . . .  B ADDR   00B0H.4 A                          66# 
+AC . . . . . . . .  B ADDR   00D0H.6 A                          34# 
+?PR?MAIN . . . . .  C SEG    0000H      REL=UNIT                185# 189 194 
+HIGH_DUTY. . . . .  N NUMB   00FFh                              170# 216 
+LOW_PWM. . . . . .  N NUMB   0007h                              163# 200 256 270 
+                                                                279 
+LED0 . . . . . . .  B ADDR   00A0H.0 A                          91# 222 231 258 
+REN. . . . . . . .  B ADDR   0098H.4 A                          75# 
+T1 . . . . . . . .  B ADDR   00B0H.5 A                          65# 
+OV . . . . . . . .  B ADDR   00D0H.2 A                          38# 
+LED1 . . . . . . .  B ADDR   00A0H.1 A                          92# 260 271 
+EA . . . . . . . .  B ADDR   00A8H.7 A                          50# 
+LED2 . . . . . . .  B ADDR   00A0H.2 A                          93# 261 278 
+ACC. . . . . . . .  D ADDR   00E0H   A                          13# 
+PINO_PULSO . . . .  B ADDR   00A0H.0 A                          121# 
+LED3 . . . . . . .  B ADDR   00A0H.3 A                          94# 
+FIM_ISR. . . . . .  C ADDR   0149H   A                          225 234 239# 
+HISTERESE_LOC. . .  N NUMB   0033h                              160# 289 
+PINO_CAPTURE . . .  B ADDR   0090H.1 A                          122# 
+LED4 . . . . . . .  B ADDR   00A0H.4 A                          95# 
+WR . . . . . . . .  B ADDR   00B0H.6 A                          64# 
+ET0. . . . . . . .  B ADDR   00A8H.1 A                          54# 
+LED5 . . . . . . .  B ADDR   00A0H.5 A                          96# 
+PINO_LED . . . . .  N NUMB   00A0h                              90# 
+ET1. . . . . . . .  B ADDR   00A8H.3 A                          52# 
+TF0. . . . . . . .  B ADDR   0088H.5 A                          43# 
+BOTAO_ON_OFF . . .  N NUMB   00B3h                              107# 
+LED6 . . . . . . .  B ADDR   00A0H.6 A                          97# 
+TF1. . . . . . . .  B ADDR   0088H.7 A                          41# 
+DRV_TIMER. . . . .  C ADDR   0100H   A                          193 198# 
+HISTERESE. . . . .  N NUMB   000Ah                              173# 
+LED7 . . . . . . .  B ADDR   00A0H.7 A                          98# 223 232 262 
+RB8. . . . . . . .  B ADDR   0098H.2 A                          77# 
+TH0. . . . . . . .  D ADDR   008CH   A                          23# 
+DESLIGA_LED. . . .  ? ADDR   0000H   A                          149# 231 232 258 
+                                                                260 261 262 
+EX0. . . . . . . .  B ADDR   00A8H.0 A                          55# 
+IT0. . . . . . . .  B ADDR   0088H.0 A                          48# 
+TH1. . . . . . . .  D ADDR   008DH   A                          24# 203 227 236 240 
+                                                                290 
+START. . . . . . .  C ADDR   018FH   A                          184 294# 
+T_OFF. . . . . . .  N NUMB   0005h                              165# 
+COMP_HIGH. . . . .  N NUMB   00B7h                              155# 252 285 
+TB8. . . . . . . .  B ADDR   0098H.3 A                          76# 
+RXD. . . . . . . .  B ADDR   00B0H.0 A                          70# 
+MACRO ASSEMBLER MAIN                                       05/15/19 17:41:30 PAGE     1
+
+
+DOS MACRO ASSEMBLER MA51 V06.20.17.263
+OBJECT MODULE PLACED IN E:\RAISONANCE\RIDE\EXAMPLES\PROJETO_CTRL_TEMPERATURA\MAIN.OBJ
+ASSEMBLER INVOKED BY: QUIET GENERATEDEPFILE EP SYNTAX(ASM51) PR XR PL(60) PW(80) DB OJ(E:\RAISONANCE\RIDE\EXAMPLES\PROJETO_CTRL_TEMPERATURA\MAIN.OBJ) PIN(C:\RAISONANCE\RIDE\INC;C:\RAISONANCE\RIDE\INC\51) 
+
+LOC     OBJ           LINE    SOURCE
+EX1. . . . . . . .  B ADDR   00A8H.2 A                          53# 
+IT1. . . . . . . .  B ADDR   0088H.2 A                          46# 
+IE . . . . . . . .  D ADDR   00A8H   A                          25# 287 
+SET_LOW_PWM. . . .  C ADDR   0168H   A                          251 269# 
+DISP_A . . . . . .  B ADDR   0080H.0 A                          109# 
+SM0. . . . . . . .  B ADDR   0098H.7 A                          72# 
+TXD. . . . . . . .  B ADDR   00B0H.1 A                          69# 
+P. . . . . . . . .  B ADDR   00D0H.0 A                          39# 
+SBUF . . . . . . .  D ADDR   0099H   A                          28# 
+TL0. . . . . . . .  D ADDR   008AH   A                          21# 
+PCON . . . . . . .  D ADDR   0087H   A                          18# 
+_LOW . . . . . . .  C ADDR   010DH   A                          200 206# 
+TON. . . . . . . .  N NUMB   0030h                              157# 
+LIGA_LED . . . . .  ? ADDR   0000H   A                          145# 222 223 271 
+                                                                278 
+DISP_B . . . . . .  B ADDR   0080H.1 A                          110# 
+SM1. . . . . . . .  B ADDR   0098H.6 A                          73# 
+TL1. . . . . . . .  D ADDR   008BH   A                          22# 203 227 236 240 
+                                                                290 
+INIT_HARD. . . . .  C ADDR   0176H   A                          283# 295 
+DISP_C . . . . . .  B ADDR   0080H.2 A                          111# 
+SM2. . . . . . . .  B ADDR   0098H.5 A                          74# 
+HIGH_PWM . . . . .  N NUMB   0006h                              164# 201 255 272 
+                                                                277 
+DISP_D . . . . . .  B ADDR   0080H.3 A                          112# 
+SCON . . . . . . .  D ADDR   0098H   A                          27# 
+DISP_E . . . . . .  B ADDR   0080H.4 A                          113# 
+PT0. . . . . . . .  B ADDR   00B8H.1 A                          60# 
+TMOD . . . . . . .  D ADDR   0089H   A                          20# 
+TCON . . . . . . .  D ADDR   0088H   A                          19# 286 
+DISP_F . . . . . .  B ADDR   0080H.5 A                          114# 
+PT1. . . . . . . .  B ADDR   00B8H.3 A                          58# 
+RS0. . . . . . . .  B ADDR   00D0H.3 A                          37# 
+DISP_G . . . . . .  B ADDR   0080H.6 A                          115# 
+RD . . . . . . . .  B ADDR   00B0H.7 A                          63# 
+TR0. . . . . . . .  B ADDR   0088H.4 A                          44# 
+RS1. . . . . . . .  B ADDR   00D0H.4 A                          36# 
+F0 . . . . . . . .  B ADDR   00D0H.5 A                          35# 
+LOW_DUTY . . . . .  N NUMB   007Fh                              169# 209 
+PINO_BUZZER. . . .  B ADDR   0090H.0 A                          124# 259 
+TR1. . . . . . . .  B ADDR   0088H.6 A                          42# 
+PX0. . . . . . . .  B ADDR   00B8H.0 A                          61# 
+ES . . . . . . . .  B ADDR   00A8H.4 A                          51# 
+SET_PWM_OFF. . . .  C ADDR   0136H   A                          211 218 230# 
+PX1. . . . . . . .  B ADDR   00B8H.2 A                          59# 
+IP . . . . . . . .  D ADDR   00B8H   A                          26# 
+LOOP . . . . . . .  C ADDR   0192H   A                          296# 298 
+PINO_BOTAO0. . . .  B ADDR   00B0H.3 A                          101# 107 
+PSW. . . . . . . .  D ADDR   00D0H   A                          12# 
+RETORNA. . . . . .  C ADDR   0167H   A                          265# 
+SET_PWM_ON . . . .  C ADDR   0123H   A                          210 217 221# 
+PINO_BOTAO1. . . .  B ADDR   00B0H.4 A                          102# 
+RI . . . . . . . .  B ADDR   0098H.0 A                          79# 
+INT0 . . . . . . .  B ADDR   00B0H.2 A                          68# 
+BUZZER_OFF . . . .  N NUMB   0001h                              131# 
+PINO_BOTAO2. . . .  B ADDR   00B0H.5 A                          103# 
+INT1 . . . . . . .  B ADDR   00B0H.3 A                          67# 
+CY . . . . . . . .  B ADDR   00D0H.7 A                          33# 
+DPH. . . . . . . .  D ADDR   0083H   A                          17# 
+PINO_RELE. . . . .  B ADDR   0090H.1 A                          125# 
+PINO_BOTAO3. . . .  B ADDR   00B0H.6 A                          104# 154 
+TI . . . . . . . .  B ADDR   0098H.1 A                          78# 
+MACRO ASSEMBLER MAIN                                       05/15/19 17:41:30 PAGE     2
+
+SET_HIGH_PWM . . .  C ADDR   016FH   A                          252 276# 
+HIST_ST. . . . . .  N NUMB   0006h                              166# 
+BUZZER_ON. . . . .  N NUMB   0000h                              130# 
+PINO_BOTAO4. . . .  B ADDR   00B0H.7 A                          105# 155 
+IE0. . . . . . . .  B ADDR   0088H.1 A                          47# 
+TASKS_SENSOR . . .  C ADDR   0150H   A                          248# 297 
+_HIGH. . . . . . .  C ADDR   0118H   A                          201 213# 
+IE1. . . . . . . .  B ADDR   0088H.3 A                          45# 
+MAIN . . . . . . .  N NUMB   -----
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    159    ----
+   XDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+REGISTER BANK(S) USED : 0 
+
+ASSEMBLY COMPLETE.   0 WARNING(S)   0 ERROR(S)
