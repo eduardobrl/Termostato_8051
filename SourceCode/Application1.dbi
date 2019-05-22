@@ -1,5 +1,5 @@
 [Application]
-ApplicationPath=E:\Raisonance\Ride\Examples\PROJETO_CTRL_TEMPERATURA\Application1.aof
+ApplicationPath=F:\Projetos\FEI\Termostato\Termostato_8051\SourceCode\Application1.aof
 DebugTool=SIM-51
 CodeSize=0x10000
 XDataSize=0x10000
@@ -9,7 +9,7 @@ CodeOffset=0x0
 LoaderTool=80C51
 Target=80C51
 ApplicationComponents=
-MakeApplicationPath=E:\Raisonance\Ride\Examples\PROJETO_CTRL_TEMPERATURA\Application1.aof
+MakeApplicationPath=F:\Projetos\FEI\Termostato\Termostato_8051\SourceCode\Application1.aof
 [Device]
 Name=AT89S52
 Architecture=1

@@ -1,22 +1,22 @@
-LX51 CODE BANKING LINKER/LOCATOR V06.20.17.263                                 05/15/19  17:41:30
+LX51 CODE BANKING LINKER/LOCATOR V06.20.17.263                                 05/22/19  17:51:21
 MS-DOS LX51 CODE BANKING LINKER/LOCATOR V06.20.17.263,  INVOKED BY:
-C:\Raisonance\Ride\Bin\LX51.EXE E:\Raisonance\Ride\Examples\PROJETO_CTRL_TEMPERATURA\main.obj TO(&
-E:\Raisonance\Ride\Examples\PROJETO_CTRL_TEMPERATURA\Application1.aof) LIBPATH(C:\Raisonance\Ride&
-\Lib\51) GENERATEDEPFILE MAP IX RS(256) RSI(128) CSIZE(65536) XSIZE(65536) DEFN(XSTACKLEN,256) DE&
-FN(TIM1_INIT,E8h) CO(0) DT(0) ID(0) XD(0) BI(0) ABSCODEOFFS(0) XMLM(No,E:\Raisonance\Ride\Example&
-s\PROJETO_CTRL_TEMPERATURA\Application1-modules.Standard.xml) XMLF(No,8000,E:\Raisonance\Ride\Exa&
-mples\PROJETO_CTRL_TEMPERATURA\Application1-flash.Standard.xml) 
+C:\Raisonance\Ride\Bin\LX51.EXE F:\Projetos\FEI\Termostato\Termostato_8051\SourceCode\main.obj TO&
+(F:\Projetos\FEI\Termostato\Termostato_8051\SourceCode\Application1.aof) LIBPATH(C:\Raisonance\Ri&
+de\Lib\51) GENERATEDEPFILE MAP IX RS(256) RSI(128) CSIZE(65536) XSIZE(65536) DEFN(XSTACKLEN,256) &
+DEFN(TIM1_INIT,E8h) CO(0) DT(0) ID(0) XD(0) BI(0) ABSCODEOFFS(0) XMLM(No,F:\Projetos\FEI\Termosta&
+to\Termostato_8051\SourceCode\Application1-modules.Standard.xml) XMLF(No,8000,F:\Projetos\FEI\Ter&
+mostato\Termostato_8051\SourceCode\Application1-flash.Standard.xml) 
 
 
 INPUT MODULES INCLUDED
-  E:\RAISONANCE\RIDE\EXAMPLES\PROJETO_CTRL_TEMPERATURA\MAIN.OBJ(MAIN)
+  F:\PROJETOS\FEI\TERMOSTATO\TERMOSTATO_8051\SOURCECODE\MAIN.OBJ(MAIN)
 
 ***WARNING 21: EMPTY RELOCATABLE SEGMENT
    -SEGMENT: ?PR?MAIN(MAIN)
 
 
-LINK MAP OF MODULE: E:\RAISONANCE\RIDE\EXAMPLES\PROJETO_CTRL_TEMPERATURA\APPLICATION1.AOF (APPLIC&
-ATION1)
+LINK MAP OF MODULE: F:\PROJETOS\FEI\TERMOSTATO\TERMOSTATO_8051\SOURCECODE\APPLICATION1.AOF (APPLI&
+CATION1)
 
     TYPE     BASE       LENGTH    RELOCATION     SEGMENT NAME
     ----     ----       ------    ----------     ------------
@@ -26,29 +26,27 @@ ATION1)
 
     * * * * * * *   CODE          M E M O R Y   * * * * * * *
     CODE     0000H      0003H     ABSOLUTE       
-             0003H      0010H                    *** GAP ***
-    CODE     0013H      0001H     ABSOLUTE       
-             0014H      0007H                    *** GAP ***
+             0003H      0018H                    *** GAP ***
     CODE     001BH      0003H     ABSOLUTE       
              001EH      00E2H                    *** GAP ***
-    CODE     0100H      0098H     ABSOLUTE       
+    CODE     0100H      008BH     ABSOLUTE       
 
 EXECUTABLE SUMMARY:
 -------------------
     Total INTERNAL RAM storage requirement:  0008H (8)
     Total EXTERNAL RAM storage requirement:  0000H (0)
-    Total     CODE     storage requirement:  009FH (159)
+    Total     CODE     storage requirement:  0091H (145)
 Note:  Summary does not include dynamic stack requirements
 
 
-REFERENCE MAP OF MODULE: E:\RAISONANCE\RIDE\EXAMPLES\PROJETO_CTRL_TEMPERATURA\APPLICATION1.AOF (APPLICATION1)
+REFERENCE MAP OF MODULE: F:\PROJETOS\FEI\TERMOSTATO\TERMOSTATO_8051\SOURCECODE\APPLICATION1.AOF (APPLICATION1)
 
 SEGMENT                           BI_GROUP            DT_GROUP             ID_GROUP             XD_GROUP
   +--> CALLED SEGMENT          START    LENGTH     START    LENGTH     START    LENGTH     START    LENGTH
 --------------------------------------------------------------------------------------
 
-SYMBOL TABLE FOR E:\RAISONANCE\RIDE\EXAMPLES\PROJETO_CTRL_TEMPERATURA\APPLICATION1.AOF(MAIN)
----------------------------------------------------------------------------------------------
+SYMBOL TABLE FOR F:\PROJETOS\FEI\TERMOSTATO\TERMOSTATO_8051\SOURCECODE\APPLICATION1.AOF(MAIN)
+----------------------------------------------------------------------------------------------
 
     VALUE              TYPE               NAME
     -----              ----               ----
@@ -81,13 +79,13 @@ SYMBOL TABLE FOR E:\RAISONANCE\RIDE\EXAMPLES\PROJETO_CTRL_TEMPERATURA\APPLICATIO
 	B:00A8H            SYMBOL             EX0
 	B:0088H            SYMBOL             IT0
 	D:008DH            SYMBOL             TH1
-	C:018FH            SYMBOL             START
+	C:0182H            SYMBOL             START
 	B:009BH            SYMBOL             TB8
 	B:00B0H            SYMBOL             RXD
 	B:00AAH            SYMBOL             EX1
 	B:008AH            SYMBOL             IT1
 	D:00A8H            SYMBOL             IE
-	C:0168H            SYMBOL             SET_LOW_PWM
+	C:015FH            SYMBOL             SET_LOW_PWM
 	B:009FH            SYMBOL             SM0
 	B:00B1H            SYMBOL             TXD
 	B:00D0H            SYMBOL             P
@@ -97,7 +95,7 @@ SYMBOL TABLE FOR E:\RAISONANCE\RIDE\EXAMPLES\PROJETO_CTRL_TEMPERATURA\APPLICATIO
 	C:010DH            SYMBOL             _LOW
 	B:009EH            SYMBOL             SM1
 	D:008BH            SYMBOL             TL1
-	C:0176H            SYMBOL             INIT_HARD
+	C:0169H            SYMBOL             INIT_HARD
 	B:009DH            SYMBOL             SM2
 	D:0098H            SYMBOL             SCON
 	B:00B9H            SYMBOL             PT0
@@ -115,9 +113,8 @@ SYMBOL TABLE FOR E:\RAISONANCE\RIDE\EXAMPLES\PROJETO_CTRL_TEMPERATURA\APPLICATIO
 	C:0136H            SYMBOL             SET_PWM_OFF
 	B:00BAH            SYMBOL             PX1
 	D:00B8H            SYMBOL             IP
-	C:0192H            SYMBOL             LOOP
+	C:0185H            SYMBOL             LOOP
 	D:00D0H            SYMBOL             PSW
-	C:0167H            SYMBOL             RETORNA
 	C:0123H            SYMBOL             SET_PWM_ON
 	B:0098H            SYMBOL             RI
 	B:00B2H            SYMBOL             INT0
@@ -125,74 +122,67 @@ SYMBOL TABLE FOR E:\RAISONANCE\RIDE\EXAMPLES\PROJETO_CTRL_TEMPERATURA\APPLICATIO
 	B:00D7H            SYMBOL             CY
 	D:0083H            SYMBOL             DPH
 	B:0099H            SYMBOL             TI
-	C:016FH            SYMBOL             SET_HIGH_PWM
+	C:0164H            SYMBOL             SET_HIGH_PWM
 	B:0089H            SYMBOL             IE0
 	C:0150H            SYMBOL             TASKS_SENSOR
 	C:0118H            SYMBOL             _HIGH
 	B:008BH            SYMBOL             IE1
-	C:0000H            LINE#              34
-	C:0013H            LINE#              38
-	C:001BH            LINE#              43
-	C:0100H            LINE#              50
-	C:0103H            LINE#              51
-	C:0106H            LINE#              53
-	C:010CH            LINE#              54
-	C:010DH            LINE#              57
-	C:010FH            LINE#              58
-	C:0111H            LINE#              59
-	C:0113H            LINE#              60
-	C:0115H            LINE#              61
-	C:0118H            LINE#              64
-	C:011AH            LINE#              65
-	C:011CH            LINE#              66
-	C:011EH            LINE#              67
-	C:0120H            LINE#              68
-	C:0123H            LINE#              72
-	C:0125H            LINE#              73
-	C:0127H            LINE#              74
-	C:0129H            LINE#              75
-	C:012CH            LINE#              76
-	C:012FH            LINE#              77
-	C:0135H            LINE#              78
-	C:0136H            LINE#              81
-	C:0138H            LINE#              82
-	C:013AH            LINE#              83
-	C:013CH            LINE#              84
-	C:013FH            LINE#              85
-	C:0142H            LINE#              86
-	C:0148H            LINE#              87
-	C:0149H            LINE#              90
-	C:014FH            LINE#              91
-	C:0150H            LINE#              101
-	C:0153H            LINE#              102
-	C:0156H            LINE#              105
-	C:0158H            LINE#              106
-	C:015AH            LINE#              107
-	C:015DH            LINE#              108
-	C:015FH            LINE#              109
-	C:0161H            LINE#              110
-	C:0163H            LINE#              111
-	C:0165H            LINE#              112
-	C:0167H            LINE#              116
-	C:0168H            LINE#              120
-	C:016AH            LINE#              121
-	C:016CH            LINE#              122
-	C:016EH            LINE#              123
-	C:016FH            LINE#              127
-	C:0171H            LINE#              128
-	C:0173H            LINE#              129
-	C:0175H            LINE#              130
-	C:0176H            LINE#              134
-	C:0179H            LINE#              135
-	C:017CH            LINE#              136
-	C:017FH            LINE#              137
-	C:0182H            LINE#              138
-	C:0185H            LINE#              139
-	C:0188H            LINE#              140
-	C:018EH            LINE#              141
-	C:018FH            LINE#              145
-	C:0192H            LINE#              147
-	C:0195H            LINE#              148
+	C:0000H            LINE#              36
+	C:001BH            LINE#              40
+	C:0100H            LINE#              47
+	C:0103H            LINE#              48
+	C:0106H            LINE#              50
+	C:010CH            LINE#              51
+	C:010DH            LINE#              55
+	C:010FH            LINE#              56
+	C:0111H            LINE#              57
+	C:0113H            LINE#              58
+	C:0115H            LINE#              59
+	C:0118H            LINE#              62
+	C:011AH            LINE#              63
+	C:011CH            LINE#              64
+	C:011EH            LINE#              65
+	C:0120H            LINE#              66
+	C:0123H            LINE#              70
+	C:0125H            LINE#              71
+	C:0127H            LINE#              72
+	C:0129H            LINE#              73
+	C:012CH            LINE#              74
+	C:012FH            LINE#              75
+	C:0135H            LINE#              76
+	C:0136H            LINE#              79
+	C:0138H            LINE#              80
+	C:013AH            LINE#              81
+	C:013CH            LINE#              82
+	C:013FH            LINE#              83
+	C:0142H            LINE#              84
+	C:0148H            LINE#              85
+	C:0149H            LINE#              88
+	C:014FH            LINE#              89
+	C:0150H            LINE#              98
+	C:0153H            LINE#              99
+	C:0156H            LINE#              101
+	C:0158H            LINE#              102
+	C:015AH            LINE#              103
+	C:015CH            LINE#              104
+	C:015EH            LINE#              105
+	C:015FH            LINE#              108
+	C:0161H            LINE#              109
+	C:0163H            LINE#              110
+	C:0164H            LINE#              114
+	C:0166H            LINE#              115
+	C:0168H            LINE#              116
+	C:0169H            LINE#              120
+	C:016CH            LINE#              121
+	C:016FH            LINE#              122
+	C:0172H            LINE#              123
+	C:0175H            LINE#              124
+	C:0178H            LINE#              125
+	C:017BH            LINE#              126
+	C:0181H            LINE#              127
+	C:0182H            LINE#              131
+	C:0185H            LINE#              133
+	C:0188H            LINE#              134
 	-------            ENDMOD             MAIN
 
 UNCALLED SEGMENTS:

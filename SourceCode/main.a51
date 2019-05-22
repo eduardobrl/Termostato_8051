@@ -1,43 +1,40 @@
 $include(REG51.inc)
 $include(Hardware.inc)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;ENDEREÇOS DE MEMÓRIA UTILIZADOS;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-COMP_LOW        EQU         PINO_BOTAO3
-COMP_HIGH       EQU         PINO_BOTAO4    
-
-TON             EQU         0x30
+;;;;;;;;;;;;;;;;BYTES;;;;;;;;;;;;;;;;;;;;
 PERIOD_LOC      EQU         0x31
-BUTTON_CLICK    EQU         0x32
-HISTERESE_LOC   EQU         0x33
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;FLAGS;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;;;;;;BTSFLAGS (AUXILIARES);;;;;;;;;;;;
 LOW_PWM         EQU         0x07
 HIGH_PWM        EQU         0x06
-T_OFF           equ         0x05
-HIST_ST         equ         0x06
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-LOW_DUTY        EQU         07FH            
-HIGH_DUTY       EQU         0ffh        
-PERIOD          EQU         0ffh      
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;VALORES CONSTANTES;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+LOW_DUTY        EQU         00CH       ;; - > Duty Temperatura Baixa = 50% do Periodo
+HIGH_DUTY       EQU         019h       ;; -> Duty Temperatura Alta = 100% do Periodo
+PERIOD          EQU         019h       ;; - > Periodo do PWM = 0,25s = 0,25/10m = 19
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-HISTERESE       EQU         0xAA
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;RESETA TIMER PARA 10 MS;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 MACRO resetTimer
-mov TH1, #0D8h
-mov TL1, #0EFh
+    mov TH1, #0D8h
+    mov TL1, #0EFh
 ENDM
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 code at 0
     ljmp START
 code
-
-code at 0013h
-    RETI
-code
-
 
 code at 001Bh
     ljmp DRV_TIMER 
@@ -53,14 +50,15 @@ DRV_TIMER:
     resetTimer
     reti
 
-    _LOW:
+    
+    _LOW: ;; Temperatura Baixa - 50% Duty
     inc PERIOD_LOC 
     mov A, PERIOD_LOC
     SUBB A, #LOW_DUTY
     JC SET_PWM_ON
     jmp SET_PWM_OFF   
     
-    _HIGH:
+    _HIGH: ;; Temperatura Alta - 100% Duty
     inc PERIOD_LOC 
     mov A, PERIOD_LOC
     SUBB A, #HIGH_DUTY
@@ -69,7 +67,7 @@ DRV_TIMER:
     
     
     SET_PWM_ON:
-        LIGA_LED  LED0
+        LIGA_VENTILADOR
         LIGA_LED  LED7
         mov A, PERIOD_LOC
         CJNE A, #PERIOD, FIM_ISR
@@ -78,7 +76,7 @@ DRV_TIMER:
     reti
     
     SET_PWM_OFF:
-        DESLIGA_LED  LED0
+        DESLIGA_VENTILADOR
         DESLIGA_LED  LED7
         mov A, PERIOD_LOC
         CJNE A, #PERIOD, FIM_ISR
@@ -97,35 +95,23 @@ DRV_TIMER:
 
 TASKS_SENSOR:
 
-   
-    JNB  COMP_LOW, SET_LOW_PWM   
     JNB  COMP_HIGH, SET_HIGH_PWM
-    
+    JNB  COMP_LOW, SET_LOW_PWM   
     
     CLR HIGH_PWM
     CLR LOW_PWM
-    mov PERIOD_LOC, #00h
-    DESLIGA_LED  LED0
+    DESLIGA_VENTILADOR
     DESLIGA_BUZZER
-    DESLIGA_LED LED1
-    DESLIGA_LED LED2  
-    DESLIGA_LED LED7
-
-
-    RETORNA:
     ret
-      
-   
+        
     SET_LOW_PWM:
         SETB LOW_PWM 
-        LIGA_LED LED1
         CLR HIGH_PWM
     ret
     
     
     SET_HIGH_PWM:
         SETB HIGH_PWM
-        LIGA_LED LED2
         CLR LOW_PWM
     ret
    
@@ -133,10 +119,10 @@ TASKS_SENSOR:
 INIT_HARD:
     MOV COMP_LOW, #0FFh    
     MOV COMP_HIGH, #0FFh 
-    MOV TCON, #01000100b
+    MOV TCON, #01000100b 
+    MOV TMOD, #00010000b ; Timer 16 bits
     mov IE, #10001100b
     MOV PERIOD_LOC, #00h
-    mov HISTERESE_LOC,#00h
     resetTimer    
 ret
 

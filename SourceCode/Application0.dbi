@@ -1,5 +1,5 @@
 [Application]
-ApplicationPath=E:\Raisonance\Ride\Examples\PROJETO_CTRL_TEMPERATURA\Application0.aof
+ApplicationPath=F:\Projetos\FEI\Termostato\Termostato_8051\SourceCode\Application0.aof
 DebugTool=SIM-51
 CodeSize=0x10000
 XDataSize=0x10000
