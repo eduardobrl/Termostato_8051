@@ -4,7 +4,7 @@
 		<View File=".\main.a51" Line="135" Index="0" focus="1" />
 		<View File=".\Hardware.inc" Line="14" Index="1" />
 		<View File=".\CORRIGIDO.A51" Line="7" Index="2" />
-																														
+																																							
 	</Views>
 	<BookMarks>
 		<BookMark File="" Line="0" />
@@ -17,7 +17,7 @@
 		<BookMark File="" Line="0" />
 		<BookMark File="" Line="0" />
 		<BookMark File="" Line="0" />
-																														
+																																							
 	</BookMarks>
 	<Grep>
 		<GrepIncludeSub>yes</GrepIncludeSub>
@@ -28,24 +28,24 @@
 		<GrepFileTypes>
 			<GrepFileTypesValue>*.c;*.h</GrepFileTypesValue>
 			<GrepFileType>*.c;*.h</GrepFileType>
-																																																		
+																																																																	
 		</GrepFileTypes>
 		<GrepFindWhat>
 			<GrepFindWhatValue/>
-																																																		
+																																																																	
 		</GrepFindWhat>
 		<GrepFindWhere>
 			<GrepFindWhereValue>Application Files</GrepFindWhereValue>
 			<GrepPathStr>Application Files</GrepPathStr>
 			<GrepPathStr>Application Path</GrepPathStr>
 			<GrepPathStr>Project Files</GrepPathStr>
-																																																		
+																																																																	
 		</GrepFindWhere>
 		<GrepReplaceWhat>
 			<GrepReplaceWhatValue/>
-																																																		
+																																																																	
 		</GrepReplaceWhat>
-																														
+																																							
 	</Grep>
 	<FindStrings>
 		<Find>PERIOD_LOC</Find>
@@ -68,7 +68,7 @@
 		<Find>liga_disp</Find>
 		<Find>liga</Find>
 		<Find>PINO_PULSE</Find>
-																														
+																																							
 	</FindStrings>
 	<ReplaceStrings/>
 	<Application1>

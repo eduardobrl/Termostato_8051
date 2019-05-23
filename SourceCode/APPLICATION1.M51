@@ -1,4 +1,4 @@
-LX51 CODE BANKING LINKER/LOCATOR V06.20.17.263                                 05/22/19  17:51:21
+LX51 CODE BANKING LINKER/LOCATOR V06.20.17.263                                 05/22/19  18:53:36
 MS-DOS LX51 CODE BANKING LINKER/LOCATOR V06.20.17.263,  INVOKED BY:
 C:\Raisonance\Ride\Bin\LX51.EXE F:\Projetos\FEI\Termostato\Termostato_8051\SourceCode\main.obj TO&
 (F:\Projetos\FEI\Termostato\Termostato_8051\SourceCode\Application1.aof) LIBPATH(C:\Raisonance\Ri&
@@ -29,13 +29,13 @@ CATION1)
              0003H      0018H                    *** GAP ***
     CODE     001BH      0003H     ABSOLUTE       
              001EH      00E2H                    *** GAP ***
-    CODE     0100H      008BH     ABSOLUTE       
+    CODE     0100H      0089H     ABSOLUTE       
 
 EXECUTABLE SUMMARY:
 -------------------
     Total INTERNAL RAM storage requirement:  0008H (8)
     Total EXTERNAL RAM storage requirement:  0000H (0)
-    Total     CODE     storage requirement:  0091H (145)
+    Total     CODE     storage requirement:  008FH (143)
 Note:  Summary does not include dynamic stack requirements
 
 
@@ -79,7 +79,7 @@ SYMBOL TABLE FOR F:\PROJETOS\FEI\TERMOSTATO\TERMOSTATO_8051\SOURCECODE\APPLICATI
 	B:00A8H            SYMBOL             EX0
 	B:0088H            SYMBOL             IT0
 	D:008DH            SYMBOL             TH1
-	C:0182H            SYMBOL             START
+	C:0180H            SYMBOL             START
 	B:009BH            SYMBOL             TB8
 	B:00B0H            SYMBOL             RXD
 	B:00AAH            SYMBOL             EX1
@@ -113,7 +113,7 @@ SYMBOL TABLE FOR F:\PROJETOS\FEI\TERMOSTATO\TERMOSTATO_8051\SOURCECODE\APPLICATI
 	C:0136H            SYMBOL             SET_PWM_OFF
 	B:00BAH            SYMBOL             PX1
 	D:00B8H            SYMBOL             IP
-	C:0185H            SYMBOL             LOOP
+	C:0183H            SYMBOL             LOOP
 	D:00D0H            SYMBOL             PSW
 	C:0123H            SYMBOL             SET_PWM_ON
 	B:0098H            SYMBOL             RI
@@ -173,16 +173,16 @@ SYMBOL TABLE FOR F:\PROJETOS\FEI\TERMOSTATO\TERMOSTATO_8051\SOURCECODE\APPLICATI
 	C:0166H            LINE#              115
 	C:0168H            LINE#              116
 	C:0169H            LINE#              120
-	C:016CH            LINE#              121
-	C:016FH            LINE#              122
-	C:0172H            LINE#              123
-	C:0175H            LINE#              124
-	C:0178H            LINE#              125
-	C:017BH            LINE#              126
-	C:0181H            LINE#              127
-	C:0182H            LINE#              131
-	C:0185H            LINE#              133
-	C:0188H            LINE#              134
+	C:016BH            LINE#              121
+	C:016DH            LINE#              122
+	C:0170H            LINE#              123
+	C:0173H            LINE#              124
+	C:0176H            LINE#              125
+	C:0179H            LINE#              126
+	C:017FH            LINE#              127
+	C:0180H            LINE#              131
+	C:0183H            LINE#              133
+	C:0186H            LINE#              134
 	-------            ENDMOD             MAIN
 
 UNCALLED SEGMENTS:

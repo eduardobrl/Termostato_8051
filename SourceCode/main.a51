@@ -117,11 +117,11 @@ TASKS_SENSOR:
    
 
 INIT_HARD:
-    MOV COMP_LOW, #0FFh    
-    MOV COMP_HIGH, #0FFh 
-    MOV TCON, #01000100b 
+    SETB COMP_LOW    
+    SETB COMP_HIGH 
     MOV TMOD, #00010000b ; Timer 16 bits
-    mov IE, #10001100b
+    mov IE, #10001000b
+    MOV TCON, #01000000b 
     MOV PERIOD_LOC, #00h
     resetTimer    
 ret
